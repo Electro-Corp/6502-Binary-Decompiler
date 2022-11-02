@@ -1,0 +1,4 @@
+run = "gcc main.c && ./a.out wacky.bin"
+
+[nix]
+channel = "stable-21_11"
