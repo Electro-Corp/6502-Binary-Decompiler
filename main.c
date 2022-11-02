@@ -1,24 +1,20 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
-uint8_t buffer[500];
 int zs = 0;
 // 
 void getCode(uint8_t num);
 int main(int argv, char** args){
 	FILE* fp = fopen(args[1], "r");
 	if(fp == NULL){printf("File %s not found!\n",args[1]);exit(1);}
+  fseek(fp, 0L, SEEK_END);
+  uint8_t buffer[ftell(fp)];
+  rewind(fp);
 	fread(buffer,sizeof(buffer),1,fp);
   printf("===== 6502 Dissasembler =====\n");
   printf("Reading from file: %s\n",args[1]);
   for(int i = 0; i < sizeof(buffer); i++){
     getCode(buffer[i]);
-    if(buffer[i] == 0x00)
-        zs++;
-    else
-        zs = 0;
-    if(zs > 2)
-      break;
   }
   printf("\n");
 }
@@ -138,6 +134,44 @@ void getCode(uint8_t num){
       printf("\n");
       printf("STX ");
       break;
+    // STY
+    case 0x84:
+      printf("\n");
+      printf("STY ");
+      break;
+    case 0x8C:
+      printf("\n");
+      printf("STY ");
+      break;
+    case 0x94:
+      printf("\n");
+      printf("STY ");
+      break;
+    // CMP
+    case 0xc1:
+      printf("\n");
+      printf("CMP ");
+      break;
+    case 0xc5:
+      printf("\n");
+      printf("CMP ");
+      break;
+    case 0xd1:
+      printf("\n");
+      printf("CMP ");
+      break;
+    case 0xd5:
+      printf("\n");
+      printf("CMP ");
+      break;
+    case 0xd9:
+      printf("\n");
+      printf("CMP ");
+      break;
+    case 0xdd:
+      printf("\n");
+      printf("CMP ");
+      break;
     // All variations of AND
     case 0x21:
       printf("\n");
@@ -184,6 +218,21 @@ void getCode(uint8_t num){
     case 0xca:
       printf("\n");
       printf("DEX ");
+      break;
+    // TXA
+    case 0x8a:
+      printf("\n");
+      printf("TXA ");
+      break;
+    // INX
+    case 0xe8:
+      printf("\n");
+      printf("INX ");
+      break;
+    // BNE
+    case 0xd0:
+      printf("\n");
+      printf("BNE ");
       break;
     default:
       printf("%u ",num);
